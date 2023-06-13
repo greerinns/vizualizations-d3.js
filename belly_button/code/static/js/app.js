@@ -1,5 +1,5 @@
 // first make a function to create the bar chart
-function createBarChart(response){
+function createDash(response){
     let subjectList = response.metadata;
     // pulling list of metadata from json
     let sampleList = response.samples;
@@ -56,19 +56,51 @@ function createBarChart(response){
 
     Plotly.newPlot('bubble', dataBubble, layoutBubble);
 
+    // Bubble chart initialized
 
+    // METADATA
 
+    // storing keys and values
+    let metaKeys = Object.keys(subjectList[0]);
+    let metaValues = Object.values(subjectList[0]);
+    // looping through each key/value pair of the object, adding it as a string
+    // adding a text break after each pair
+    for (let i = 0; i<metaKeys.length; i++){
+        let string = `${metaKeys[i]}: ${metaValues[i]}`
+        d3.select("#sample-metadata").append("text").text(string)
+        d3.select("#sample-metadata").append("html").html("<br>")
+    }
+    // metadata initialized
+
+    // DROP DOWN
 
     // now adding drop down menu for all 153 test IDs
     let dropDown = d3.select("#selDataset")
     // adding an option for each test ID in the list of subjects
     for (let i = 0; i < subjectList.length; i++){
-        dropDown.append("option").text(subjectList[i].id);
+        dropDown.append("option")
+        .text(Object.values(subjectList[i])[0])
+        .attr("value", subjectList[i][0])
+        // set the value and text for each id 
     }
 
 }
 
-// taking in the json data and running the above function
+d3.selectAll("#selDataset").on("change", function(response)
+{
+    let dropdown = d3.select("#selDataset")
+    let choice = dropdown.property("value")
+    // now choice is equal to the id key for both the metadata and the sample data
+    let newSubjectList = response.metadata;
+    // pulling list of metadata from json
+    let newSampleList = response.samples;
+    // pulling the list of samples from the json response
+    
+})
+
+
+
+// taking in the json data and running the createDash function
 
 let url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
 // for running from a browser
@@ -76,6 +108,6 @@ let filepath = "/../../data/samples.json"
 // for running from a dev server use filepath (no access to local files in browser)
 d3.json(url).then(function(response){
     console.log(response);
-    createBarChart(response);
+    createDash(response);
     // checking on data
 });
