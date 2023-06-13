@@ -10,7 +10,8 @@
 </head>
 
 <body>
-
+  <!-- title section-->
+  <!-- 1st row-->
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
@@ -18,12 +19,19 @@
         <p>Use the interactive charts below to explore the dataset</p>
       </div>
     </div>
+    <!-- end of test subject metadate section-->
+    <!-- start of test subject metadata section-->
+    <!-- 2nd row-->
     <div class="row">
       <div class="col-md-2">
+        <!--drop down section-->
         <div class="well">
           <h5>Test Subject ID No.:</h5>
-          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+          <select id="selDataset" onchange="optionChanged(this.value)">
+          </select>
         </div>
+        <!--end of drop down section-->
+        <!--start of data displayed based on drop down selection-->
         <div class="panel panel-primary">
           <div class="panel-heading">
             <h3 class="panel-title">Demographic Info</h3>
@@ -31,20 +39,31 @@
           <div id="sample-metadata" class="panel-body"></div>
         </div>
       </div>
+      <!-- end of test subject metadata section-->
+      <!-- start of bar chart of top 10 OTUs-->
+      <!-- new set of columns-->
       <div class="col-md-5">
         <div id="bar"></div>
       </div>
+      <!-- end of bar chart of top 10 OTUs-->
+      <!-- start of gauge-->
+      <!-- new set of columns-->
       <div class="col-md-5">
         <div id="gauge"></div>
       </div>
     </div>
+    <!-- end of gauge-->
+    <!-- start of bubble visual-->
+    <!-- 3rd row-->
     <div class="row">
       <div class="col-md-12">
+      <!-- across all columns-->
         <div id="bubble"></div>
       </div>
     </div>
   </div>
 
+  <!-- scripts imported-->
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="./static/js/app.js"></script>
