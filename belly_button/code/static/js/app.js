@@ -84,19 +84,25 @@ function createDash(response){
         // set the value and text for each id 
     }
 
-}
+    // ON CHANGE 
 
-d3.selectAll("#selDataset").on("change", function(response)
+    d3.selectAll("#selDataset").on("change", function(response)
 {
     let dropdown = d3.select("#selDataset")
     let choice = dropdown.property("value")
-    // now choice is equal to the id key for both the metadata and the sample data
-    let newSubjectList = response.metadata;
-    // pulling list of metadata from json
-    let newSampleList = response.samples;
-    // pulling the list of samples from the json response
-    
+    // now we have the id selected saved as choice
+    // need to find what element of the list that is
+    for (let i = 0; i < subjectList.length; i++){
+        if(subjectList[i].id == choice){
+            desired_index = i
+            // this is the index of both lists that corresponds with the id
+        }
+    }
 })
+
+}
+
+
 
 
 
