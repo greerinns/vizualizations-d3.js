@@ -13,13 +13,15 @@ function createDash(response){
     // want the top 10 OTUs, they are already sorted by sample_value in the source json
     // therefore need slice the first ten of each item mapped
     // set up the bar chart to initialize on the data frome the first individual in the json
+    // initializing desired index at for later use
+    let desired_index = 0
     let traceBar = {
-        x: sampleValues[0].reverse(),
-        y: otuIds[0].map(otu => `OTU ${otu}`).reverse(),
+        x: sampleValues[desired_index].reverse(),
+        y: otuIds[desired_index].map(otu => `OTU ${otu}`).reverse(),
         // the otu_ids in json are in integer form, converted them to string
         type: 'bar',
         orientation: 'h',
-        text: otuLabels[0].reverse()
+        text: otuLabels[desired_index].reverse()
         // reversed all lists due to plotly default sorting
     };
     let dataBar = [traceBar];
@@ -36,13 +38,13 @@ function createDash(response){
 
     let traceBubble = {
         // setting up desired values
-        x: sampleList.map(item => item.otu_ids)[0],
-        y: sampleList.map(item => item.sample_values)[0],
-        text: sampleList.map(item => item.otu_labels)[0],
+        x: sampleList.map(item => item.otu_ids)[desired_index],
+        y: sampleList.map(item => item.sample_values)[desired_index],
+        text: sampleList.map(item => item.otu_labels)[desired_index],
         mode: 'markers',
         marker: {
-            color: sampleList.map(item => item.otu_ids)[0],
-            size: sampleList.map(item => item.sample_values)[0],
+            color: sampleList.map(item => item.otu_ids)[desired_index],
+            size: sampleList.map(item => item.sample_values)[desired_index],
             sizeref: .1,
             sizemode: 'area'
         }
@@ -61,8 +63,8 @@ function createDash(response){
     // METADATA
 
     // storing keys and values
-    let metaKeys = Object.keys(subjectList[0]);
-    let metaValues = Object.values(subjectList[0]);
+    let metaKeys = Object.keys(subjectList[desired_index]);
+    let metaValues = Object.values(subjectList[desired_index]);
     // looping through each key/value pair of the object, adding it as a string
     // adding a text break after each pair
     for (let i = 0; i<metaKeys.length; i++){
@@ -98,14 +100,70 @@ function createDash(response){
             // this is the index of both lists that corresponds with the id
         }
     }
+    // now to replot
+    let traceBar = {
+        x: sampleValues[desired_index].reverse(),
+        y: otuIds[desired_index].map(otu => `OTU ${otu}`).reverse(),
+        // the otu_ids in json are in integer form, converted them to string
+        type: 'bar',
+        orientation: 'h',
+        text: otuLabels[desired_index].reverse()
+        // reversed all lists due to plotly default sorting
+    };
+    let dataBar = [traceBar];
+
+    let layoutBar = {
+        title: 'Top 10 OTUs for this individual'
+    };
+
+    Plotly.newPlot("bar", dataBar, layoutBar);
+    
+    // horizontal bar chart initialized
+
+    // BUBBLE CHART
+
+    let traceBubble = {
+        // setting up desired values
+        x: sampleList.map(item => item.otu_ids)[desired_index],
+        y: sampleList.map(item => item.sample_values)[desired_index],
+        text: sampleList.map(item => item.otu_labels)[desired_index],
+        mode: 'markers',
+        marker: {
+            color: sampleList.map(item => item.otu_ids)[desired_index],
+            size: sampleList.map(item => item.sample_values)[desired_index],
+            sizeref: .1,
+            sizemode: 'area'
+        }
+    };
+
+    let dataBubble = [traceBubble];
+
+    let layoutBubble = {
+        title: 'OTUs for this individual'
+    };
+
+    Plotly.newPlot('bubble', dataBubble, layoutBubble);
+
+    // Bubble chart 
+
+    // METADATA
+
+    // storing keys and values
+    metaKeys = Object.keys(subjectList[desired_index]);
+    metaValues = Object.values(subjectList[desired_index]);
+    // looping through each key/value pair of the object, adding it as a string
+    // adding a text break after each pair
+    d3.select("#sample-metadata").text("")
+    for (let i = 0; i<metaKeys.length; i++){
+        let string = `${metaKeys[i]}: ${metaValues[i]}`
+        d3.select("#sample-metadata").append("text").text(string)
+        d3.select("#sample-metadata").append("html").html("<br>")
+    }
+    // metadata 
+
 })
 
 }
-
-
-
-
-
 // taking in the json data and running the createDash function
 
 let url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
