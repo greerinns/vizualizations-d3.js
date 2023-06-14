@@ -100,7 +100,7 @@ function createDash(response){
             // this is the index of both lists that corresponds with the id
         }
     }
-    // now to replot
+    // now to replot dashboard
     let traceBar = {
         x: sampleValues[desired_index].reverse(),
         y: otuIds[desired_index].map(otu => `OTU ${otu}`).reverse(),
@@ -118,7 +118,7 @@ function createDash(response){
 
     Plotly.newPlot("bar", dataBar, layoutBar);
     
-    // horizontal bar chart initialized
+    // horizontal bar chart replotted according to correct index
 
     // BUBBLE CHART
 
@@ -144,7 +144,7 @@ function createDash(response){
 
     Plotly.newPlot('bubble', dataBubble, layoutBubble);
 
-    // Bubble chart 
+    // Bubble chart according to correct index
 
     // METADATA
 
@@ -159,7 +159,7 @@ function createDash(response){
         d3.select("#sample-metadata").append("text").text(string)
         d3.select("#sample-metadata").append("html").html("<br>")
     }
-    // metadata 
+    // metadata according to correct index
 
 })
 
