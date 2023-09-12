@@ -1,4 +1,4 @@
-# d3.js-vizualization
+# interactive-web-vizualization
 
 ## Project Summary: Interactive Web Visualizations with D3.js
 
